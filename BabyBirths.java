@@ -38,13 +38,45 @@ public class BabyBirths {
         System.out.println("female girls = " + totalGirls);
         System.out.println("male boys = " + totalBoys);
     }
-
+    
+    public void averageRank(int start, int end, String name, String gender){
+    int rank = 0;
+    
+    for(int i = start; i <= end; i++){
+        FileResource fr = new FileResource("us_babynames_by_year/yob"+i+".csv");
+        Boolean found = false;
+        for(CSVRecord rec : fr.getCSVParser(false)){
+            
+            if(rec.get(1).equals(gender)){
+            if(found == false){
+                rank ++;
+            }
+            if(rec.get(0).equals(name)){
+                found = true;
+            }
+            
+            }
+        }
+    }
+    
+    System.out.println("Average Rank of "+name+" is " + rank/(end-start+1));
+    }
+        public void testAverageRank(){
+        int start = 2012;
+        int end = 2014;
+        String name = "Emma";
+        String gender = "F";
+        averageRank(start, end, name, gender);
+    }
+    
+    
     public void yearOfHighestrank(int start, int end, String name, String gender){
         int rank =0;
         int highestRank = 99999999;
         int highRankedYear =0;
         for(int i = start; i <= end; i++){
-         FileResource fr = new FileResource("testing/yob"+i+"short.csv");
+//         FileResource fr = new FileResource("us_babynames_by_year/yob"+i+".csv");
+            FileResource fr = new FileResource("testing/yob"+i+"short.csv");
             rank = 0;
            for(CSVRecord rec : fr.getCSVParser(false)){
                if(rec.get(1).equals(gender)){
@@ -61,9 +93,9 @@ public class BabyBirths {
             System.out.println(name +" Highest Rank is " + highestRank + " in " + highRankedYear);
     }
     public void testYearOfHighestRank(){
-        int start = 2012;
+        int start = 1880;
         int end = 2014;
-        String name = "William";
+        String name = "Mich";
         String gender = "M";
         yearOfHighestrank(start, end, name, gender);
     }
