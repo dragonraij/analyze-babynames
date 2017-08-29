@@ -41,15 +41,17 @@ public class BabyBirths {
     
     public void averageRank(int start, int end, String name, String gender){
     int rank = 0;
-    
+    int currentRank = 0;
+    int count = 0;
     for(int i = start; i <= end; i++){
-        FileResource fr = new FileResource("us_babynames_by_year/yob"+i+".csv");
+        FileResource fr = new FileResource("testing/yob"+i+"short.csv");
         Boolean found = false;
+        currentRank =0;
         for(CSVRecord rec : fr.getCSVParser(false)){
             
             if(rec.get(1).equals(gender)){
             if(found == false){
-                rank ++;
+                currentRank ++;
             }
             if(rec.get(0).equals(name)){
                 found = true;
@@ -57,14 +59,18 @@ public class BabyBirths {
             
             }
         }
+        if(found){
+            rank += currentRank;
+            count ++;
+        }
     }
     
-    System.out.println("Average Rank of "+name+" is " + rank/(end-start+1));
+    System.out.println("Average Rank of "+name+" is " + (float)rank/count);
     }
         public void testAverageRank(){
         int start = 2012;
         int end = 2014;
-        String name = "Emma";
+        String name = "Sophia";
         String gender = "F";
         averageRank(start, end, name, gender);
     }
@@ -76,7 +82,7 @@ public class BabyBirths {
         int highRankedYear =0;
         for(int i = start; i <= end; i++){
 //         FileResource fr = new FileResource("us_babynames_by_year/yob"+i+".csv");
-            FileResource fr = new FileResource("testing/yob"+i+"short.csv");
+            FileResource fr = new FileResource("us_babynames_by_year/yob"+i+".csv");
             rank = 0;
            for(CSVRecord rec : fr.getCSVParser(false)){
                if(rec.get(1).equals(gender)){
